@@ -11,8 +11,8 @@ import (
 	"github.com/viktorminko/monitor/method"
 	"github.com/viktorminko/monitor/test"
 	"github.com/viktorminko/monitor/statistic"
-	. "github.com/viktorminko/monitor/authorization"
-	. "github.com/viktorminko/monitor/http"
+	"github.com/viktorminko/monitor/authorization"
+	chttp "github.com/viktorminko/monitor/http"
 	"os"
 	"flag"
 	"path"
@@ -134,7 +134,7 @@ func main() {
 	)
 
 	//Set proxy for http request if necessary
-	client := &Client{}
+	client := &chttp.Client{}
 	if len(configuration.Proxy) > 0 {
 		proxyURL, err := url.Parse(configuration.Proxy)
 		if err == nil {
@@ -142,11 +142,11 @@ func main() {
 		}
 	}
 
-	var authHandler *Handler
+	var authHandler *authorization.Handler
 
 	if len(authConf.AuthorizationURL) != 0 {
-		authHandler = &Handler{
-			&HttpAuthorizer{
+		authHandler = &authorization.Handler{
+			&authorization.HttpAuthorizer{
 				configuration.Domain + authConf.AuthorizationURL,
 				authConf.GetAuthorizationTokenTimeout,
 				authConf.AppID,
