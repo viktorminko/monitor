@@ -8,8 +8,7 @@ import (
 	"github.com/viktorminko/monitor/helper"
 	"github.com/viktorminko/monitor/config"
 	cerror "github.com/viktorminko/monitor/error"
-	"github.com/viktorminko/monitor/method"
-	"github.com/viktorminko/monitor/test"
+	"github.com/viktorminko/monitor/request"
 	"github.com/viktorminko/monitor/statistic"
 	"github.com/viktorminko/monitor/authorization"
 	chttp "github.com/viktorminko/monitor/http"
@@ -75,8 +74,8 @@ func main() {
 	}
 
 	//Init tests
-	APIMethods := method.APITests{}
-	if err := APIMethods.InitFromFile(path.Join(path.Dir(workDir), testsFile)); err != nil {
+	rawTests := config.Definitions{}
+	if err := rawTests.InitFromFile(path.Join(path.Dir(workDir), testsFile)); err != nil {
 		cerror.Check(cerror.Fatal{"error loading tests", err})
 	}
 
@@ -87,9 +86,9 @@ func main() {
 	}
 
 	//Update tests based on data from environment file
-	tests, err := test.Prepare(APIMethods, env, configuration.Domain)
+	tests, err := request.Prepare(rawTests, env, configuration.Domain)
 	if err != nil {
-		cerror.Check(cerror.NonFatal{"error occurred while preparing API methods", err})
+		cerror.Check(cerror.NonFatal{"error occurred while preparing raw tests", err})
 	}
 
 	//Init authorization configuration
@@ -108,7 +107,7 @@ func main() {
 	(&StartupReporter{errorChannel}).Send(
 		configuration,
 		authConf,
-		APIMethods,
+		rawTests,
 		senders,
 	)
 
@@ -158,7 +157,7 @@ func main() {
 	}
 	//Run tests runner
 	(&TestsRunner{
-		&test.Suite{
+		&request.Suite{
 			tests,
 			testStatsChan,
 			errorChannel,
@@ -168,7 +167,7 @@ func main() {
 		errorChannel,
 	}).Run(
 		authHandler,
-		&test.APICaller{
+		&request.Runner{
 			errorChannel,
 			client,
 		},

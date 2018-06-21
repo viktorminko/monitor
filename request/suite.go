@@ -1,4 +1,4 @@
-package test
+package request
 
 import (
 	"time"
@@ -6,24 +6,24 @@ import (
 )
 
 type Suite struct {
-	Tests            []Test
+	Requests         []Request
 	StatisticChannel chan<- ExecutionData
 	ErrorChannel     chan<- error
 }
 
-func (t *Suite) Run(token *authorization.Token, caller *APICaller) bool {
+func (t *Suite) Run(token *authorization.Token, caller *Runner) bool {
 	isAllTestsPassed := true
 
 	ch := make(chan bool)
 
 	counter := 0
 
-	for i := range t.Tests {
-		if t.Tests[i].IsNeedToRun(time.Now()) {
+	for i := range t.Requests {
+		if t.Requests[i].IsNeedToRun(time.Now()) {
 			counter++
-			go func(test *Test, c chan<- bool) {
+			go func(test *Request, c chan<- bool) {
 				c <- test.Run(token, t.StatisticChannel, caller)
-			}(&t.Tests[i], ch)
+			}(&t.Requests[i], ch)
 		}
 	}
 

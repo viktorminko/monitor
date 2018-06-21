@@ -1,12 +1,10 @@
-package method
+package config
 
 import (
-	"testing"
-	"github.com/viktorminko/monitor/config"
-)
+	"testing")
 
 func TestApiMethodPrepare(t *testing.T) {
-	methodData := &Data{
+	methodData := &Definition{
 		"test_prepare",
 		"/api/{{.a1}}/s1/{{.b2}}/s2/{{.c3}}",
 		false,
@@ -18,7 +16,7 @@ func TestApiMethodPrepare(t *testing.T) {
 		200,
 	}
 
-	err := methodData.Prepare(&config.Environment{
+	err := methodData.Prepare(&Environment{
 		"a1": "1a",
 		"b2": "2b",
 		"c3": "3c",

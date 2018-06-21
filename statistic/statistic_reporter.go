@@ -46,7 +46,7 @@ func (s *Reporter) SendReport(stats *Monitor, senders *notifiers.Senders) error 
 		"statistic_report",
 		 map[string]interface{}{
 		"Date":      time.Now().Local().Format("Mon Jan 2 15:04:05 2006"),
-		"Tests":     stats.Suite.Tests,
+		"Requests":     stats.Suite.Tests,
 		"AuthStats": stats.Authorization,
 	})
 

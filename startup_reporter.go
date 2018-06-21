@@ -7,7 +7,6 @@ import (
 	"github.com/viktorminko/monitor/config"
 	"github.com/viktorminko/monitor/notifiers"
 	"github.com/viktorminko/monitor/helper"
-	"github.com/viktorminko/monitor/method"
 	cerror "github.com/viktorminko/monitor/error"
 )
 
@@ -18,14 +17,14 @@ type StartupReporter struct {
 func (s *StartupReporter) Send(
 	config *config.Configuration,
 	auth *config.AuthorizationConfiguration,
-	APIMethods []method.Data,
+	Requests []config.Definition,
 	senders *notifiers.Senders) {
 
 	log.Println("Startup reporter started")
 
 	go func() {
 
-		testsJSON, err := json.Marshal(APIMethods)
+		testsJSON, err := json.Marshal(Requests)
 		if err != nil {
 			s.ErrorChannel <- cerror.NonFatal{"error occurred decoding tests data", err}
 		}

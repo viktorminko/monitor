@@ -1,4 +1,4 @@
-package test
+package request
 
 import (
 	"fmt"
@@ -8,32 +8,32 @@ import (
 	"net/http/httptest"
 	"testing"
 	"time"
-	"github.com/viktorminko/monitor/method"
 	"github.com/viktorminko/monitor/authorization"
 	cerror "github.com/viktorminko/monitor/error"
 	chttp "github.com/viktorminko/monitor/http"
+	"github.com/viktorminko/monitor/config"
 )
 
 type TestData struct {
 	Name    string
-	Method  *method.Data
+	Definition  *config.Definition
 	Token   *authorization.Token
 	handler func(w http.ResponseWriter, r *http.Request)
 	tester  func(err error, t *testing.T)
 }
 
 var testData = []*TestData{
-	//Test Timeout
+	//Request Timeout
 	{
 		"Timeout",
-		&method.Data{
+		&config.Definition{
 			TimeOut:      1,
 			ResponseCode: http.StatusOK,
 		},
 		nil,
 		func(w http.ResponseWriter, r *http.Request) {
 			time.Sleep(time.Duration(2) * time.Second)
-			fmt.Fprintln(w, "Response from test server")
+			fmt.Fprintln(w, "Response from request server")
 		},
 		func(err error, t *testing.T) {
 			if nil == err {
@@ -48,7 +48,7 @@ var testData = []*TestData{
 
 	{
 		"Invalid path",
-		&method.Data{
+		&config.Definition{
 			ResponseCode: http.StatusOK,
 		},
 		nil,
@@ -64,7 +64,7 @@ var testData = []*TestData{
 
 	{
 		"Invalid response code",
-		&method.Data{
+		&config.Definition{
 			ResponseCode: http.StatusOK,
 		},
 		nil,
@@ -81,7 +81,7 @@ var testData = []*TestData{
 
 	{
 		"Don't check body",
-		&method.Data{
+		&config.Definition{
 			Sample:       false,
 			ResponseCode: http.StatusOK,
 		},
@@ -98,7 +98,7 @@ var testData = []*TestData{
 
 	{
 		"Invalid response body",
-		&method.Data{
+		&config.Definition{
 			Sample:       map[string]interface{}{"status": "ok"},
 			ResponseCode: http.StatusOK,
 		},
@@ -119,7 +119,7 @@ var testData = []*TestData{
 
 	{
 		"Valid response body",
-		&method.Data{
+		&config.Definition{
 			Sample:       map[string]interface{}{"status": "ok"},
 			ResponseCode: http.StatusOK,
 		},
@@ -136,7 +136,7 @@ var testData = []*TestData{
 
 	{
 		"Valid token provided",
-		&method.Data{
+		&config.Definition{
 			Sample:       false,
 			ResponseCode: http.StatusOK,
 		},
@@ -159,14 +159,14 @@ var testData = []*TestData{
 
 	{
 		"Valid URL requested",
-		&method.Data{
+		&config.Definition{
 			Sample:       false,
-			URL:          "/test/1/post?q=1&j=2",
+			URL:          "/request/1/post?q=1&j=2",
 			ResponseCode: http.StatusOK,
 		},
 		nil,
 		func(w http.ResponseWriter, r *http.Request) {
-			if "/test/1/post?q=1&j=2" == r.URL.RequestURI() {
+			if "/request/1/post?q=1&j=2" == r.URL.RequestURI() {
 				w.WriteHeader(http.StatusOK)
 			} else {
 				w.WriteHeader(http.StatusNotFound)
@@ -181,7 +181,7 @@ var testData = []*TestData{
 
 	{
 		"Non JSON server response",
-		&method.Data{
+		&config.Definition{
 			Sample:       map[string]interface{}{"status": "ok"},
 			ResponseCode: http.StatusOK,
 		},
@@ -198,7 +198,7 @@ var testData = []*TestData{
 
 	{
 		"Invalid URL in request",
-		&method.Data{
+		&config.Definition{
 			Sample:       false,
 			ResponseCode: http.StatusOK,
 			URL:          "invalid part of URL",
@@ -234,11 +234,11 @@ func TestAPICaller_RunApiMethod(t *testing.T) {
 
 		t.Run(test.Name, func(t *testing.T) {
 			test.tester(
-				(&APICaller{
+				(&Runner{
 					errChan,
 					&chttp.Client{},
-				}).RunApiMethod(
-					test.Method,
+				}).RunTest(
+					test.Definition,
 					server.URL,
 					test.Token,
 				),

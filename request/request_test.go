@@ -1,4 +1,4 @@
-package test
+package request
 
 import (
 	"math/rand"
@@ -9,7 +9,6 @@ import (
 	"testing"
 	"time"
 	"github.com/viktorminko/monitor/config"
-	"github.com/viktorminko/monitor/method"
 	chttp "github.com/viktorminko/monitor/http"
 	"github.com/viktorminko/monitor/authorization"
 )
@@ -20,32 +19,32 @@ func TestTest_IsNeedToRun(t *testing.T) {
 
 	runPeriod := 2
 
-	apiTest := Test{
+	apiTest := Request{
 		LastExecutedAt: lastExecuted,
-		APIMethod: &method.Data{
+		Definition: &config.Definition{
 			RunPeriod: runPeriod,
 		},
 	}
 
 	//Exactly in one period
 	if apiTest.IsNeedToRun(lastExecuted.Add(time.Duration(runPeriod) * time.Second)) {
-		t.Error("Test should not be executed exactly after one period")
+		t.Error("Request should not be executed exactly after one period")
 	}
 
 	//Later then one period
 	if !apiTest.IsNeedToRun(lastExecuted.Add(time.Duration(runPeriod+1) * time.Second)) {
-		t.Error("Test should be executed later then 1 period")
+		t.Error("Request should be executed later then 1 period")
 	}
 
 	//Earlier then one period
 	if apiTest.IsNeedToRun(lastExecuted.Add(time.Duration(runPeriod-1) * time.Second)) {
-		t.Error("Test should not be executed earlier then 1 period")
+		t.Error("Request should not be executed earlier then 1 period")
 	}
 
 	//Should be executed if LastExecutedAt is 0
 	apiTest.LastExecutedAt = time.Time{}
 	if !apiTest.IsNeedToRun(time.Time{}.Add(time.Duration(runPeriod-1) * time.Second)) {
-		t.Error("Test should be executed if it was never executed yet")
+		t.Error("Request should be executed if it was never executed yet")
 	}
 }
 
@@ -61,7 +60,7 @@ func TestTest_Run(t *testing.T) {
 			}
 		}
 	}()
-	apiCaller := &APICaller{
+	apiCaller := &Runner{
 		errChan,
 		&chttp.Client{},
 	}
@@ -72,7 +71,7 @@ func TestTest_Run(t *testing.T) {
 	token := strconv.Itoa(rand.Intn(1000))
 
 	//Server will delay its response
-	//Then we test if correct response value is sent to statistics
+	//Then we request if correct response value is sent to statistics
 	responseDelay := time.Duration(1) * time.Second
 
 	//How server handles request
@@ -85,10 +84,10 @@ func TestTest_Run(t *testing.T) {
 	}))
 	defer server.Close()
 
-	//APIMethod we are about to run
-	apiTest := Test{
+	//Definition we are about to run
+	apiTest := Request{
 		Domain: server.URL,
-		APIMethod: &method.Data{
+		Definition: &config.Definition{
 			ResponseCode: 200,
 			Sample:       false,
 		},
@@ -122,7 +121,7 @@ func TestTest_Run(t *testing.T) {
 func TestPrepareTests(t *testing.T) {
 
 	domain := "my_domain"
-	methods := []method.Data{{}, {}}
+	methods := []config.Definition{{}, {}}
 
 	p, err := Prepare(
 		methods,
@@ -132,15 +131,15 @@ func TestPrepareTests(t *testing.T) {
 	}
 
 	if p[0].Domain != domain || p[1].Domain != domain {
-		t.Error("Domain is not inserted while test preparation")
+		t.Error("Domain is not inserted while request preparation")
 	}
 
-	if p[0].APIMethod != &methods[0] || p[1].APIMethod != &methods[1] {
-		t.Error("Methods were not inserted in test correctly")
+	if p[0].Definition != &methods[0] || p[1].Definition != &methods[1] {
+		t.Error("Methods were not inserted in request correctly")
 	}
 
 	if !p[0].LastExecutedAt.IsZero() || !p[0].LastExecutedAt.IsZero() {
-		t.Error("Tests time was not set correctly")
+		t.Error("Definitions time was not set correctly")
 	}
 
 }

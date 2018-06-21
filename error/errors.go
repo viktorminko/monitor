@@ -1,14 +1,13 @@
 package error
 
 import (
-	//"net/http"
 	"encoding/json"
 	"fmt"
 	"log"
 	"errors"
 	"github.com/viktorminko/monitor/notifiers"
 	"github.com/viktorminko/monitor/helper"
-	"github.com/viktorminko/monitor/method"
+	"github.com/viktorminko/monitor/config"
 )
 
 type Fatal struct {
@@ -31,7 +30,7 @@ func (e NonFatal) Error() string {
 
 type Test struct {
 	Msg      string
-	Request  method.Data
+	Request  config.Definition
 	Code     int
 	Response string
 }

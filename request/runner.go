@@ -1,4 +1,4 @@
-package test
+package request
 
 import (
 	"fmt"
@@ -7,19 +7,19 @@ import (
 	"strings"
 	"time"
 	"github.com/viktorminko/monitor/helper"
-	chttp "github.com/viktorminko/monitor/http"
 	"github.com/viktorminko/monitor/authorization"
 	cerror "github.com/viktorminko/monitor/error"
-	"github.com/viktorminko/monitor/method"
+	chttp "github.com/viktorminko/monitor/http"
+	"github.com/viktorminko/monitor/config"
 )
 
-type APICaller struct {
+type Runner struct {
 	ErrorChannel chan<- error
-	APIClient    *chttp.Client
+	Client       *chttp.Client
 }
 
-func (a *APICaller) RunApiMethod(apiMethod *method.Data, domain string, token *authorization.Token) error {
-	req, err := http.NewRequest(apiMethod.HTTPMethod, domain+apiMethod.URL, strings.NewReader(apiMethod.Payload))
+func (a *Runner) RunTest(definition *config.Definition, domain string, token *authorization.Token) error {
+	req, err := http.NewRequest(definition.HTTPMethod, domain+definition.URL, strings.NewReader(definition.Payload))
 	if err != nil {
 		a.ErrorChannel <- cerror.NonFatal{"error occurred while calling http", err}
 		return err
@@ -29,9 +29,9 @@ func (a *APICaller) RunApiMethod(apiMethod *method.Data, domain string, token *a
 		req.Header.Add("authorization", "Bearer "+token.Token)
 	}
 
-	res, err := a.APIClient.Call(
+	res, err := a.Client.Call(
 		req,
-		time.Duration(apiMethod.TimeOut)*time.Second,
+		time.Duration(definition.TimeOut)*time.Second,
 	)
 	if err != nil {
 		a.ErrorChannel <- cerror.NonFatal{"error occurred while calling http", err}
@@ -39,23 +39,23 @@ func (a *APICaller) RunApiMethod(apiMethod *method.Data, domain string, token *a
 	}
 
 	//Check expected response code
-	if apiMethod.ResponseCode != res.StatusCode {
+	if definition.ResponseCode != res.StatusCode {
 		err = cerror.NonFatal{
 			"unexpected HTTP response code",
-			fmt.Errorf("expected: %d, received: %d", apiMethod.ResponseCode, res.StatusCode)}
+			fmt.Errorf("expected: %d, received: %d", definition.ResponseCode, res.StatusCode)}
 
 		a.ErrorChannel <- err
 		return err
 	}
 
 	//If sample is false, no need to check it
-	if false == apiMethod.Sample {
+	if false == definition.Sample {
 		return nil
 	}
 
 	body, _ := ioutil.ReadAll(res.Body)
 
-	isExpectedResponse, err := helper.AreEqualJSON(string(body), apiMethod.Sample)
+	isExpectedResponse, err := helper.AreEqualJSON(string(body), definition.Sample)
 	if err != nil {
 		a.ErrorChannel <- cerror.NonFatal{"error occurred while comparing API response and sample", err}
 		return err
@@ -64,7 +64,7 @@ func (a *APICaller) RunApiMethod(apiMethod *method.Data, domain string, token *a
 	if !isExpectedResponse {
 		err := cerror.Test{
 			"unexpected API response",
-			*apiMethod,
+			*definition,
 			res.StatusCode,
 			string(body),
 		}

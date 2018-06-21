@@ -1,7 +1,7 @@
 package statistic
 
 import (
-  "github.com/viktorminko/monitor/test"
+  "github.com/viktorminko/monitor/request"
 )
 
 type ForTest struct {
@@ -9,13 +9,13 @@ type ForTest struct {
 }
 
 type Suite struct {
-	Tests map[*test.Test]*ForTest
+	Tests map[*request.Request]*ForTest
 }
 
-func (s *Suite) Update(newData test.ExecutionData) error {
+func (s *Suite) Update(newData request.ExecutionData) error {
 
 	if s.Tests == nil {
-		s.Tests = make(map[*test.Test]*ForTest)
+		s.Tests = make(map[*request.Request]*ForTest)
 	}
 
 	if _, ok := s.Tests[newData.Test]; !ok {

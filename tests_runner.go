@@ -4,24 +4,24 @@ import (
 	"errors"
 	"log"
 	"time"
-	"github.com/viktorminko/monitor/test"
+	"github.com/viktorminko/monitor/request"
 	"github.com/viktorminko/monitor/authorization"
 	cerror "github.com/viktorminko/monitor/error"
 
 )
 
 type TestsRunner struct {
-	Suite             *test.Suite
+	Suite             *request.Suite
 	ExecutionsPeriod  time.Duration
-	TestsStatsChannel chan<- test.ExecutionData
+	TestsStatsChannel chan<- request.ExecutionData
 	ErrorChannel      chan<- error
 }
 
-func (t *TestsRunner) Run(authHandler *authorization.Handler, caller *test.APICaller) {
+func (t *TestsRunner) Run(authHandler *authorization.Handler, caller *request.Runner) {
 	ticker := time.NewTicker(t.ExecutionsPeriod)
 	for {
 
-		log.Println("Running test suite")
+		log.Println("Running request suite")
 
 		var token *authorization.Token
 		var authError error
@@ -38,7 +38,7 @@ func (t *TestsRunner) Run(authHandler *authorization.Handler, caller *test.APICa
 			}
 
 			if authError != nil {
-				t.ErrorChannel <- cerror.NonFatal{"error occurred while retrieving authorization token. Current test round aborted", authError}
+				t.ErrorChannel <- cerror.NonFatal{"error occurred while retrieving authorization token. Current request round aborted", authError}
 			}
 		}
 

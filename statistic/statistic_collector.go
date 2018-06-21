@@ -2,7 +2,7 @@ package statistic
 
 import (
 	"log"
-	"github.com/viktorminko/monitor/test"
+	"github.com/viktorminko/monitor/request"
 	"github.com/viktorminko/monitor/authorization"
 
 )
@@ -13,13 +13,13 @@ type Collector struct {
 }
 
 func (s *Collector) Run() (
-	chan<- test.ExecutionData,
+	chan<- request.ExecutionData,
 	chan<- authorization.RequestData,
 	<-chan *Monitor) {
 
 	log.Println("Statistics collector started")
 
-	c1 := make(chan test.ExecutionData)
+	c1 := make(chan request.ExecutionData)
 	c2 := make(chan authorization.RequestData)
 	c3 := make(chan *Monitor)
 	go func() {
