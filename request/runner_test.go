@@ -226,11 +226,8 @@ func TestAPICaller_RunApiMethod(t *testing.T) {
 		}
 	}()
 
-	server := httptest.NewServer(http.HandlerFunc(nil))
-	defer server.Close()
-
 	for _, test := range testData {
-		server.Config.Handler = http.HandlerFunc(test.handler)
+		server := httptest.NewServer(http.HandlerFunc(test.handler))
 
 		t.Run(test.Name, func(t *testing.T) {
 			test.tester(
@@ -245,5 +242,6 @@ func TestAPICaller_RunApiMethod(t *testing.T) {
 				t,
 			)
 		})
+		server.Close()
 	}
 }
