@@ -7,6 +7,10 @@ import (
 
 )
 
+type Monitor struct {
+	Suite         *Suite
+	Authorization *Authorization
+}
 
 type Collector struct {
 	Statistics *Monitor
