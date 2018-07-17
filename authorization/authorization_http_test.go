@@ -7,6 +7,9 @@ import (
 	"testing"
 	"time"
 	chttp "github.com/viktorminko/monitor/http"
+	"os"
+	"log"
+	"io/ioutil"
 )
 
 func TestHttpAuthorizer_GetToken(t *testing.T) {
@@ -67,4 +70,9 @@ func TestHttpAuthorizer_GetTokenInvalidResponseCode(t *testing.T) {
 	}).GetToken(); err == nil {
 		t.Fatalf("error expected, but not returned")
 	}
+}
+
+func TestMain(m *testing.M) {
+	log.SetOutput(ioutil.Discard)
+	os.Exit(m.Run())
 }

@@ -11,6 +11,9 @@ import (
 	"github.com/viktorminko/monitor/config"
 	chttp "github.com/viktorminko/monitor/http"
 	"github.com/viktorminko/monitor/authorization"
+	"log"
+	"io/ioutil"
+	"os"
 )
 
 func TestTest_IsNeedToRun(t *testing.T) {
@@ -141,5 +144,9 @@ func TestPrepareTests(t *testing.T) {
 	if !p[0].LastExecutedAt.IsZero() || !p[0].LastExecutedAt.IsZero() {
 		t.Error("Definitions time was not set correctly")
 	}
+}
 
+func TestMain(m *testing.M) {
+	log.SetOutput(ioutil.Discard)
+	os.Exit(m.Run())
 }

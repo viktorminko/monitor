@@ -6,6 +6,9 @@ import (
 	"net/url"
 	"testing"
 	"time"
+	"log"
+	"io/ioutil"
+	"os"
 )
 
 func TestHTTPClient_Call(t *testing.T) {
@@ -113,4 +116,9 @@ func TestHTTPClient_Call(t *testing.T) {
 		}
 	})
 
+}
+
+func TestMain(m *testing.M) {
+	log.SetOutput(ioutil.Discard)
+	os.Exit(m.Run())
 }
