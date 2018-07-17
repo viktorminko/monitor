@@ -3,6 +3,7 @@
 Monitor your APIs, services, web sites and pretty much everything which works via http and json.
 Set up tests, customize execution schedule, collect statistics and report results through various channels.
 
+[![Build Status](https://travis-ci.org/viktorminko/monitor.svg?branch=master)](https://travis-ci.org/viktorminko/monitor)
 
 ## Features
 
