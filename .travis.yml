@@ -1,3 +1,5 @@
+language: go
+
 go:
   - 1.9.x
 
@@ -5,9 +7,6 @@ go_import_path: github.com/viktorminko/monitor
 
 git:
   depth: 1
-
-install:
-  - go get -t ./...
 
 script:
   - go test -v -race ./...
