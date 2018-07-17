@@ -7,11 +7,6 @@ type Handler interface {
 	Reset() error
 }
 
-type Monitor struct {
-	Suite         *Suite
-	Authorization *Authorization
-}
-
 type Statistic struct {
 	AmountOfExecutions  int
 	AverageResponseTime time.Duration
