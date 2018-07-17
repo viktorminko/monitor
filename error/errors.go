@@ -36,7 +36,7 @@ type Test struct {
 }
 
 func (e Test) Error() string {
-	return fmt.Sprintf("error: %s, Request %s, Code: %s, Response: %s", e.Msg, e.Request, e.Code, e.Response)
+	return fmt.Sprintf("error: %v, Request %v, Code: %v, Response: %s", e.Msg, e.Request, e.Code, e.Response)
 }
 
 func Report(e error, senders *notifiers.Senders) error {
