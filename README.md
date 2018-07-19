@@ -4,6 +4,7 @@ Monitor your APIs, services, web sites and pretty much everything which works vi
 Set up tests, customize execution schedule, collect statistics and report results through various channels.
 
 [![Build Status](https://travis-ci.org/viktorminko/monitor.svg?branch=master)](https://travis-ci.org/viktorminko/monitor)
+[![Coverage Status](https://coveralls.io/repos/github/viktorminko/monitor/badge.svg)](https://coveralls.io/github/viktorminko/monitor)
 
 ## Features
 
