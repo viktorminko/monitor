@@ -5,10 +5,12 @@ import (
 	"github.com/viktorminko/monitor/notifiers"
 )
 
-type ErrorHandler struct {
+// Handler starts error handler goroutine
+type Handler struct {
 }
 
-func (eh *ErrorHandler) Run(senders *notifiers.Senders) chan<- error {
+// Run starts handler goroutine and passes notifiers to error reporter
+func (eh *Handler) Run(senders *notifiers.Senders) chan<- error {
 
 	log.Println("Error handler started")
 

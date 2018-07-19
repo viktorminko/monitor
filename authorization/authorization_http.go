@@ -13,7 +13,8 @@ import (
 	chttp "github.com/viktorminko/monitor/http"
 )
 
-type HttpAuthorizer struct {
+// HTTPAuthorizer gets authorization token via HHTP request to URL
+type HTTPAuthorizer struct {
 	URL       string
 	Timeout   int
 	AppID     string
@@ -21,7 +22,8 @@ type HttpAuthorizer struct {
 	Client    *chttp.Client
 }
 
-func (a *HttpAuthorizer) GetToken() (*Token, error) {
+// GetToken retrieves authorization token from URL via HTTP request
+func (a *HTTPAuthorizer) GetToken() (*Token, error) {
 
 	data := url.Values{}
 	data.Set("grant_type", "client_credentials")

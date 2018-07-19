@@ -1,10 +1,10 @@
 package config
 
 import (
-	"os"
 	"github.com/viktorminko/monitor/helper"
 )
 
+// Configuration contains main monitor settings
 type Configuration struct {
     Domain                       string
 	RunPeriod                    int
@@ -13,11 +13,7 @@ type Configuration struct {
 	Proxy                        string
 }
 
+// InitFromFile inits object from JSON file
 func (c *Configuration) InitFromFile (filePath string) (error) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return err
-	}
-
-	return helper.InitObjectFromJsonReader(file, c)
+	return helper.InitObjectFromJsonFile(filePath, c)
 }

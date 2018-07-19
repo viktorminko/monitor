@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"net/http"
 	"text/template"
-	"os"
 	"github.com/viktorminko/monitor/helper"
 )
 
+// Definition contains properties to single monitor test
 type Definition struct {
 	ID           string
 	URL          string
@@ -20,19 +20,17 @@ type Definition struct {
 	ResponseCode int
 }
 
+// Definitions is a slice of monitor tests
 type Definitions []Definition
 
-func (a *Definitions) InitFromFile (filePath string) (error) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return err
-	}
-
-	return helper.InitObjectFromJsonReader(file, a)
+// InitFromFile inits object from JSON file
+func (ds *Definitions) InitFromFile (filePath string) (error) {
+	return helper.InitObjectFromJsonFile(filePath, ds)
 }
 
-func (m *Definition) Prepare(data *Environment) error {
-	tmpl, err := template.New("tpl").Parse(m.URL)
+// Prepare modifies definition based on provided context
+func (d *Definition) Prepare(data *Context) error {
+	tmpl, err := template.New("tpl").Parse(d.URL)
 	if err != nil {
 		return err
 	}
@@ -42,7 +40,7 @@ func (m *Definition) Prepare(data *Environment) error {
 	if err != nil {
 		return err
 	}
-	m.URL = t.String()
+	d.URL = t.String()
 
 	return nil
 }

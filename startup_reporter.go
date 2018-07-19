@@ -10,10 +10,12 @@ import (
 	cerror "github.com/viktorminko/monitor/error"
 )
 
+// StartupReporter sends monitor startup report to all specified senders
 type StartupReporter struct {
 	ErrorChannel chan<- error
 }
 
+// Send sends message to all senders with current startup data
 func (s *StartupReporter) Send(
 	config *config.Configuration,
 	auth *config.AuthorizationConfiguration,

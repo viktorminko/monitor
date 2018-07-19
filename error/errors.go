@@ -10,24 +10,29 @@ import (
 	"github.com/viktorminko/monitor/config"
 )
 
+// Fatal is a fatal error, should stop immediately
 type Fatal struct {
 	Msg string
 	Err error
 }
 
+// Error returns error message with internal error data
 func (e Fatal) Error() string {
 	return e.Msg + "\r\n" + e.Err.Error()
 }
 
+// NonFatal is a non fatal error, should not stop execution
 type NonFatal struct {
 	Msg string
 	Err error
 }
 
+// Error returns error message with internal error data
 func (e NonFatal) Error() string {
 	return e.Msg + "\r\n" + e.Err.Error()
 }
 
+// Test is a test error, contains data of test execution
 type Test struct {
 	Msg      string
 	Request  config.Definition
@@ -35,10 +40,12 @@ type Test struct {
 	Response string
 }
 
+// Error returns error message using test information
 func (e Test) Error() string {
 	return fmt.Sprintf("error: %v, Request %v, Code: %v, Response: %s", e.Msg, e.Request, e.Code, e.Response)
 }
 
+// Report passes error message to notifiers
 func Report(e error, senders *notifiers.Senders) error {
 
 	if len(*senders) == 0 {
@@ -75,6 +82,7 @@ func Report(e error, senders *notifiers.Senders) error {
 	return nil
 }
 
+// Check performs required actions based on error type
 func Check(err error) {
 	if _, ok := err.(Fatal); ok {
 		log.Fatalf("Fatal error: %v", err)

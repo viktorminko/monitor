@@ -2,7 +2,7 @@ package authorization
 
 import "time"
 
-//Authorization token used in API requests
+// Token is an authorization token used in HTTP requests
 type Token struct {
 	Token     string `json:"access_token"`
 	Expires   int    `json:"expires_in"`
@@ -10,17 +10,20 @@ type Token struct {
 	TokenType string `json:"token_type"`
 }
 
+// RequestData contains information about request execution
 type RequestData struct {
 	Time         time.Time
 	Err          error
 	ResponseTime time.Duration
 }
 
+// Handler gets authorization tokens and sends statistics
 type Handler struct {
 	Authorizer Authorizer
 	StatsChan  chan<- RequestData
 }
 
+// Authorizer interface to get authorization tokens
 type Authorizer interface {
 	GetToken() (*Token, error)
 }

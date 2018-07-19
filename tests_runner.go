@@ -10,6 +10,8 @@ import (
 
 )
 
+// TestsRunner runs test suite based on execution period
+// and sends statistics data to provided channels
 type TestsRunner struct {
 	Suite             *request.Suite
 	ExecutionsPeriod  time.Duration
@@ -17,6 +19,7 @@ type TestsRunner struct {
 	ErrorChannel      chan<- error
 }
 
+// Run executes test suite periodically based on provided execution period
 func (t *TestsRunner) Run(authHandler *authorization.Handler, caller *request.Runner) {
 	ticker := time.NewTicker(t.ExecutionsPeriod)
 	for {

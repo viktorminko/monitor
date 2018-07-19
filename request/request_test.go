@@ -128,7 +128,7 @@ func TestPrepareTests(t *testing.T) {
 
 	p, err := Prepare(
 		methods,
-		&config.Environment{}, domain)
+		&config.Context{}, domain)
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}

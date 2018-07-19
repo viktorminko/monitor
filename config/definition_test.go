@@ -16,7 +16,7 @@ func TestApiMethodPrepare(t *testing.T) {
 		200,
 	}
 
-	err := methodData.Prepare(&Environment{
+	err := methodData.Prepare(&Context{
 		"a1": "1a",
 		"b2": "2b",
 		"c3": "3c",

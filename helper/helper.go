@@ -10,6 +10,7 @@ import (
 	"bytes"
 )
 
+// InitObjectFromJsonFile inits object from JSON file
 func InitObjectFromJsonFile(filename string, obj interface{}) error {
 	file, err := os.Open(filename)
 	if err != nil {
@@ -19,6 +20,7 @@ func InitObjectFromJsonFile(filename string, obj interface{}) error {
 	return InitObjectFromJsonReader(file, obj)
 }
 
+// InitObjectFromJsonFile inits object from JSON reader
 func InitObjectFromJsonReader(reader io.Reader, obj interface{}) error {
 	decoder := json.NewDecoder(reader)
 	err := decoder.Decode(obj)
@@ -26,6 +28,7 @@ func InitObjectFromJsonReader(reader io.Reader, obj interface{}) error {
 	return err
 }
 
+// PrepareLog sets log output to provided file
 func PrepareLog(logfile string) error {
 	f, err := os.OpenFile(logfile, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 	if err != nil {
@@ -37,9 +40,7 @@ func PrepareLog(logfile string) error {
 	return nil
 }
 
-/**
- * Deep compare 2 jsons
- */
+// AreEqualJSON performs deep comparison of 2 JSONs
 func AreEqualJSON(s1 string, jsonData interface{}) (bool, error) {
 	var o1 interface{}
 
@@ -52,6 +53,7 @@ func AreEqualJSON(s1 string, jsonData interface{}) (bool, error) {
 	return reflect.DeepEqual(o1, jsonData), nil
 }
 
+// FormatJSON makes JSON look nice
 func FormatJSON(s []byte) []byte {
 	var sPretty bytes.Buffer
 	err := json.Indent(&sPretty, s, "", "    ")

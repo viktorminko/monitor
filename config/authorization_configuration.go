@@ -1,10 +1,10 @@
 package config
 
 import (
-	"os"
 	"github.com/viktorminko/monitor/helper"
 )
 
+// AuthorizationConfiguration contains data for authorization
 type AuthorizationConfiguration struct {
 	AppID                        string
 	AppSecret                    string
@@ -12,11 +12,7 @@ type AuthorizationConfiguration struct {
 	GetAuthorizationTokenTimeout int
 }
 
+// InitFromFile inits object from JSON file
 func (a *AuthorizationConfiguration) InitFromFile (filePath string) (error) {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return nil
-	}
-
-	return helper.InitObjectFromJsonReader(file, a)
+	return helper.InitObjectFromJsonFile(filePath, a)
 }

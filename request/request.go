@@ -40,7 +40,7 @@ func (t *Request) Run(token *authorization.Token, statisticsChannel chan<- Execu
 	return true
 }
 
-func Prepare(definitions []config.Definition, environment *config.Environment, domain string) ([]Request, error) {
+func Prepare(definitions []config.Definition, environment *config.Context, domain string) ([]Request, error) {
 	var tests []Request
 	for i := range definitions {
 		err := definitions[i].Prepare(environment)

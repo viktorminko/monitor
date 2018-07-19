@@ -25,7 +25,7 @@ const authorizationConfigurationFile = "authorization.json"
 
 // Init senders fro notifications
 // Currently supported: email, telegram
-func InitSenders(workDir string) *notifiers.Senders {
+func initSenders(workDir string) *notifiers.Senders {
 	//Init message senders
 	var s notifiers.Senders
 
@@ -80,7 +80,7 @@ func main() {
 	}
 
 	//Init environment
-	env := &config.Environment{}
+	env := &config.Context{}
 	if err := env.InitFromFile(path.Join(path.Dir(workDir), environmentFile)); err != nil {
 		cerror.Check(cerror.Fatal{"error loading environment", err})
 	}
@@ -98,10 +98,10 @@ func main() {
 	}
 
 	//Init message senders
-	senders := InitSenders(workDir)
+	senders := initSenders(workDir)
 
 	//Run Error handler
-	errorChannel := (&cerror.ErrorHandler{}).Run(senders)
+	errorChannel := (&cerror.Handler{}).Run(senders)
 
 	//Send startup message
 	(&StartupReporter{errorChannel}).Send(
@@ -145,7 +145,7 @@ func main() {
 
 	if len(authConf.AuthorizationURL) != 0 {
 		authHandler = &authorization.Handler{
-			&authorization.HttpAuthorizer{
+			&authorization.HTTPAuthorizer{
 				configuration.Domain + authConf.AuthorizationURL,
 				authConf.GetAuthorizationTokenTimeout,
 				authConf.AppID,

@@ -43,7 +43,7 @@ func TestHttpAuthorizer_GetToken(t *testing.T) {
 	}))
 	defer server.Close()
 
-	token, err := (&HttpAuthorizer{
+	token, err := (&HTTPAuthorizer{
 		server.URL,
 		timeout,
 		appID,
@@ -61,7 +61,7 @@ func TestHttpAuthorizer_GetToken(t *testing.T) {
 }
 
 func TestHttpAuthorizer_GetTokenInvalidResponseCode(t *testing.T) {
-	if _, err := (&HttpAuthorizer{
+	if _, err := (&HTTPAuthorizer{
 		URL: httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusAccepted)
 
