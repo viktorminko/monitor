@@ -106,11 +106,11 @@ func TestTest_Run(t *testing.T) {
 		res := <-statsChan
 
 		if res.Err != nil {
-			t.Errorf("Unexpected error return %s", res.Err.Error())
+			t.Errorf("unexpected error return %s", res.Err.Error())
 		}
 
 		if res.ResponseTime < responseDelay {
-			t.Errorf("Expected response time more then %s, got %s", responseDelay, res.ResponseTime)
+			t.Errorf("expected response time more then %s, got %s", responseDelay, res.ResponseTime)
 		}
 
 		wg.Done()
