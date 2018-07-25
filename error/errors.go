@@ -2,12 +2,12 @@ package error
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"errors"
-	"github.com/viktorminko/monitor/notifiers"
-	"github.com/viktorminko/monitor/helper"
+	"fmt"
 	"github.com/viktorminko/monitor/config"
+	"github.com/viktorminko/monitor/helper"
+	"github.com/viktorminko/monitor/notifiers"
+	"log"
 )
 
 // Fatal is a fatal error, should stop immediately
@@ -58,13 +58,13 @@ func Report(e error, senders *notifiers.Senders) error {
 	switch e.(type) {
 	default:
 		mID = "unexpected_error"
-		mBody = map[string]interface{}{"err" : e.Error()}
+		mBody = map[string]interface{}{"err": e.Error()}
 	case Fatal:
 		mID = "fatal_error"
-		mBody = map[string]interface{}{"err" : e.(Fatal).Error()}
+		mBody = map[string]interface{}{"err": e.(Fatal).Error()}
 	case NonFatal:
 		mID = "non_fatal_error"
-		mBody = map[string]interface{}{"err" : e.(NonFatal).Error()}
+		mBody = map[string]interface{}{"err": e.(NonFatal).Error()}
 	case Test:
 		mID = "test_error"
 
@@ -75,7 +75,6 @@ func Report(e error, senders *notifiers.Senders) error {
 			"sample":   string(helper.FormatJSON(sample)),
 		}
 	}
-
 
 	senders.SendToAll(mID, mBody)
 

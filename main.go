@@ -1,19 +1,18 @@
 package main
 
 import (
-	"log"
-	"net/url"
-	"time"
-	"github.com/viktorminko/monitor/notifiers"
-	"github.com/viktorminko/monitor/helper"
+	"flag"
+	"github.com/viktorminko/monitor/authorization"
 	"github.com/viktorminko/monitor/config"
 	cerror "github.com/viktorminko/monitor/error"
+	"github.com/viktorminko/monitor/helper"
+	chttp "github.com/viktorminko/monitor/http"
+	"github.com/viktorminko/monitor/notifiers"
 	"github.com/viktorminko/monitor/request"
 	"github.com/viktorminko/monitor/statistic"
-	"github.com/viktorminko/monitor/authorization"
-	chttp "github.com/viktorminko/monitor/http"
+	"log"
+	"net/url"
 	"os"
-	"flag"
 	"path"
 )
 
@@ -94,7 +93,7 @@ func main() {
 	//Init authorization configuration
 	authConf := &config.AuthorizationConfiguration{}
 	if err := authConf.InitFromFile(path.Join(path.Dir(workDir), authorizationConfigurationFile)); err != nil {
-		cerror.Check(cerror.Fatal{"error loading authorization configuration", err})
+		cerror.Check(cerror.NonFatal{"error loading authorization configuration", err})
 	}
 
 	//Init message senders
@@ -112,8 +111,8 @@ func main() {
 	)
 
 	testStatsChan,
-	authStatsChan,
-	statsRequester := (&statistic.Collector{&statistic.Monitor{
+		authStatsChan,
+		statsRequester := (&statistic.Collector{&statistic.Monitor{
 		&statistic.Suite{
 			nil,
 		},
@@ -127,10 +126,10 @@ func main() {
 	//Run statistics reporter
 	(&statistic.Reporter{errorChannel}).
 		Run(
-		time.Duration(configuration.StatisticRunPeriod)*time.Second,
-		statsRequester,
-		senders,
-	)
+			configuration.StatisticRunPeriod.Duration,
+			statsRequester,
+			senders,
+		)
 
 	//Set proxy for http request if necessary
 	client := &chttp.Client{}
@@ -162,7 +161,7 @@ func main() {
 			testStatsChan,
 			errorChannel,
 		},
-		time.Duration(configuration.RunPeriod) * time.Second,
+		configuration.RunPeriod.Duration,
 		testStatsChan,
 		errorChannel,
 	}).Run(

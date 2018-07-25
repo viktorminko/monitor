@@ -1,15 +1,15 @@
 package http
 
 import (
-	"log"
-	"net/http"
-	"net/url"
-	"time"
-	"golang.org/x/net/proxy"
-	"net"
 	"context"
 	"fmt"
+	"golang.org/x/net/proxy"
+	"log"
+	"net"
+	"net/http"
+	"net/url"
 	"strings"
+	"time"
 )
 
 type Client struct {

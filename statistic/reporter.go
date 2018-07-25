@@ -1,10 +1,10 @@
 package statistic
 
 import (
+	cerror "github.com/viktorminko/monitor/error"
+	"github.com/viktorminko/monitor/notifiers"
 	"log"
 	"time"
-	"github.com/viktorminko/monitor/notifiers"
-	cerror "github.com/viktorminko/monitor/error"
 )
 
 type Reporter struct {
@@ -44,11 +44,11 @@ func (s *Reporter) SendReport(stats *Monitor, senders *notifiers.Senders) error 
 
 	senders.SendToAll(
 		"statistic_report",
-		 map[string]interface{}{
-		"Date":      time.Now().Local().Format("Mon Jan 2 15:04:05 2006"),
-		"Requests":     stats.Suite.Tests,
-		"AuthStats": stats.Authorization,
-	})
+		map[string]interface{}{
+			"Date":      time.Now().Local().Format("Mon Jan 2 15:04:05 2006"),
+			"Tests":     stats.Suite.Tests,
+			"AuthStats": stats.Authorization,
+		})
 
 	return nil
 }

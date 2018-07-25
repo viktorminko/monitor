@@ -1,21 +1,21 @@
 package notifiers
 
 import (
-	"log"
 	"github.com/Syfaro/telegram-bot-api"
 	"github.com/viktorminko/monitor/helper"
+	"log"
 	"path"
 )
 
 type TelegramSenderConfig struct {
-	Token string
+	Token  string
 	ChatID int64
 }
 
 type TelegramSender struct {
 	WorkDir string
-	chatID int64
-	Bot *tgbotapi.BotAPI
+	chatID  int64
+	Bot     *tgbotapi.BotAPI
 }
 
 func (s *TelegramSender) SendMessage(mID string, mBody map[string]interface{}) error {
@@ -29,7 +29,7 @@ func (s *TelegramSender) SendMessage(mID string, mBody map[string]interface{}) e
 	msg := tgbotapi.NewMessage(s.chatID, "*"+message.Subject+"*\n\n"+message.Body)
 	msg.ParseMode = tgbotapi.ModeMarkdown
 
-	log.Printf("sending message to telegram, mess: "+msg.Text)
+	log.Printf("sending message to telegram, mess: " + msg.Text)
 
 	s.Bot.Send(msg)
 
@@ -61,4 +61,3 @@ func InitTelegramSender(workDir string) (Sender, error) {
 		bot,
 	}, nil
 }
-

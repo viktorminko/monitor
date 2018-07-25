@@ -1,13 +1,13 @@
 package helper
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"reflect"
-	"io"
-	"bytes"
 )
 
 // InitObjectFromJsonFile inits object from JSON file

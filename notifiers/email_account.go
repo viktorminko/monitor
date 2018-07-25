@@ -1,7 +1,7 @@
 package notifiers
 
 type Recipient struct {
-	Name string
+	Name  string
 	Email string
 }
 
@@ -11,8 +11,8 @@ type EmailAccount struct {
 	EmailServer string
 	Port        int
 	IsDebugMode bool
-	Recipients []Recipient
-	From string
+	Recipients  []Recipient
+	From        string
 }
 
 func (a *EmailAccount) GetRecipients() ([]string, error) {

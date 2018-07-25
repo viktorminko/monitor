@@ -2,12 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/viktorminko/monitor/config"
+	cerror "github.com/viktorminko/monitor/error"
+	"github.com/viktorminko/monitor/helper"
+	"github.com/viktorminko/monitor/notifiers"
 	"log"
 	"time"
-	"github.com/viktorminko/monitor/config"
-	"github.com/viktorminko/monitor/notifiers"
-	"github.com/viktorminko/monitor/helper"
-	cerror "github.com/viktorminko/monitor/error"
 )
 
 // StartupReporter sends monitor startup report to all specified senders

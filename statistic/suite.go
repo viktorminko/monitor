@@ -1,7 +1,7 @@
 package statistic
 
 import (
-  "github.com/viktorminko/monitor/request"
+	"github.com/viktorminko/monitor/request"
 )
 
 type Suite struct {

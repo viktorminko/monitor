@@ -2,12 +2,11 @@ package main
 
 import (
 	"errors"
-	"log"
-	"time"
-	"github.com/viktorminko/monitor/request"
 	"github.com/viktorminko/monitor/authorization"
 	cerror "github.com/viktorminko/monitor/error"
-
+	"github.com/viktorminko/monitor/request"
+	"log"
+	"time"
 )
 
 // TestsRunner runs test suite based on execution period

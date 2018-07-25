@@ -1,12 +1,11 @@
 package notifiers
 
-import ()
 import (
-	"os/exec"
-	"log"
-	"strings"
 	"fmt"
 	"io/ioutil"
+	"log"
+	"os/exec"
+	"strings"
 )
 
 type SendmailEmailSender struct {

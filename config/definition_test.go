@@ -1,7 +1,8 @@
 package config
 
 import (
-	"testing")
+	"testing"
+)
 
 func TestApiMethodPrepare(t *testing.T) {
 	methodData := &Definition{
@@ -11,8 +12,8 @@ func TestApiMethodPrepare(t *testing.T) {
 		"GET",
 		nil,
 		"",
-		1,
-		5,
+		Duration{1},
+		Duration{5},
 		200,
 	}
 

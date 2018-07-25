@@ -2,11 +2,6 @@ package statistic
 
 import "time"
 
-type Handler interface {
-	Update(newData interface{}) error
-	Reset() error
-}
-
 type Statistic struct {
 	AmountOfExecutions  int
 	AverageResponseTime time.Duration

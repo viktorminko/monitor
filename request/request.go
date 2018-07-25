@@ -1,9 +1,9 @@
 package request
 
 import (
-	"time"
-	"github.com/viktorminko/monitor/config"
 	"github.com/viktorminko/monitor/authorization"
+	"github.com/viktorminko/monitor/config"
+	"time"
 )
 
 type Request struct {
@@ -21,7 +21,7 @@ type ExecutionData struct {
 //Check if current request should be executed at provided time
 //Uses Definition RunPeriod
 func (t *Request) IsNeedToRun(at time.Time) bool {
-	return t.LastExecutedAt.IsZero() || at.Sub(t.LastExecutedAt).Seconds() > float64(t.Definition.RunPeriod)
+	return t.LastExecutedAt.IsZero() || at.Sub(t.LastExecutedAt) > t.Definition.RunPeriod.Duration
 }
 
 func (t *Request) Run(token *authorization.Token, statisticsChannel chan<- ExecutionData, caller *Runner) bool {

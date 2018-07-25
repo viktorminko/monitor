@@ -2,15 +2,14 @@ package request
 
 import (
 	"fmt"
+	"github.com/viktorminko/monitor/authorization"
+	"github.com/viktorminko/monitor/config"
+	cerror "github.com/viktorminko/monitor/error"
+	"github.com/viktorminko/monitor/helper"
+	chttp "github.com/viktorminko/monitor/http"
 	"io/ioutil"
 	"net/http"
 	"strings"
-	"time"
-	"github.com/viktorminko/monitor/helper"
-	"github.com/viktorminko/monitor/authorization"
-	cerror "github.com/viktorminko/monitor/error"
-	chttp "github.com/viktorminko/monitor/http"
-	"github.com/viktorminko/monitor/config"
 )
 
 type Runner struct {
@@ -31,7 +30,7 @@ func (a *Runner) RunTest(definition *config.Definition, domain string, token *au
 
 	res, err := a.Client.Call(
 		req,
-		time.Duration(definition.TimeOut)*time.Second,
+		definition.TimeOut.Duration,
 	)
 	if err != nil {
 		a.ErrorChannel <- cerror.NonFatal{"error occurred while calling http", err}

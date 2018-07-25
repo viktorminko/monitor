@@ -1,10 +1,9 @@
 package statistic
 
 import (
-	"log"
-	"github.com/viktorminko/monitor/request"
 	"github.com/viktorminko/monitor/authorization"
-
+	"github.com/viktorminko/monitor/request"
+	"log"
 )
 
 type Monitor struct {

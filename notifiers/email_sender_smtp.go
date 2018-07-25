@@ -14,7 +14,7 @@ type SmtpEmailSender struct {
 func (e *SmtpEmailSender) SendMessage(mID string, mBody map[string]interface{}) error {
 
 	//Init message
-	message, err := BuildMessage(e.WorkDir, mID,mBody)
+	message, err := BuildMessage(e.WorkDir, mID, mBody)
 	if err != nil {
 		return err
 	}

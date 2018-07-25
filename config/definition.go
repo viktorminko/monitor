@@ -2,9 +2,9 @@ package config
 
 import (
 	"bytes"
+	"github.com/viktorminko/monitor/helper"
 	"net/http"
 	"text/template"
-	"github.com/viktorminko/monitor/helper"
 )
 
 // Definition contains properties to single monitor test
@@ -15,8 +15,8 @@ type Definition struct {
 	HTTPMethod   string
 	Header       http.Header
 	Payload      string
-	RunPeriod    int
-	TimeOut      int
+	RunPeriod    Duration
+	TimeOut      Duration
 	ResponseCode int
 }
 
@@ -24,7 +24,7 @@ type Definition struct {
 type Definitions []Definition
 
 // InitFromFile inits object from JSON file
-func (ds *Definitions) InitFromFile (filePath string) (error) {
+func (ds *Definitions) InitFromFile(filePath string) error {
 	return helper.InitObjectFromJsonFile(filePath, ds)
 }
 

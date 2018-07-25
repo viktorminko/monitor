@@ -2,24 +2,24 @@ package request
 
 import (
 	"fmt"
+	"github.com/viktorminko/monitor/authorization"
+	"github.com/viktorminko/monitor/config"
+	cerror "github.com/viktorminko/monitor/error"
+	chttp "github.com/viktorminko/monitor/http"
 	"io"
 	"net"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 	"time"
-	"github.com/viktorminko/monitor/authorization"
-	cerror "github.com/viktorminko/monitor/error"
-	chttp "github.com/viktorminko/monitor/http"
-	"github.com/viktorminko/monitor/config"
 )
 
 type TestData struct {
-	Name    string
-	Definition  *config.Definition
-	Token   *authorization.Token
-	handler func(w http.ResponseWriter, r *http.Request)
-	tester  func(err error, t *testing.T)
+	Name       string
+	Definition *config.Definition
+	Token      *authorization.Token
+	handler    func(w http.ResponseWriter, r *http.Request)
+	tester     func(err error, t *testing.T)
 }
 
 var testData = []*TestData{
@@ -27,7 +27,7 @@ var testData = []*TestData{
 	{
 		"Timeout",
 		&config.Definition{
-			TimeOut:      1,
+			TimeOut:      config.Duration{1},
 			ResponseCode: http.StatusOK,
 		},
 		nil,

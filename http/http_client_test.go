@@ -1,14 +1,14 @@
 package http
 
 import (
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"testing"
 	"time"
-	"log"
-	"io/ioutil"
-	"os"
 )
 
 func TestHTTPClient_Call(t *testing.T) {

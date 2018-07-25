@@ -1,8 +1,8 @@
 package request
 
 import (
-	"time"
 	"github.com/viktorminko/monitor/authorization"
+	"time"
 )
 
 type Suite struct {

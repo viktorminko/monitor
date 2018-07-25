@@ -4,13 +4,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"errors"
+	chttp "github.com/viktorminko/monitor/http"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
-	"net/url"
-	chttp "github.com/viktorminko/monitor/http"
 )
 
 // HTTPAuthorizer gets authorization token via HHTP request to URL
@@ -40,9 +40,8 @@ func (a *HTTPAuthorizer) GetToken() (*Token, error) {
 
 	req.Header = http.Header{
 		"Authorization": {"Basic " + base64.StdEncoding.EncodeToString([]byte(a.AppID+":"+a.AppSecret))},
-		"Cache-Control" : {"no-cache"},
-		"Content-Type": {"application/x-www-form-urlencoded"},
-
+		"Cache-Control": {"no-cache"},
+		"Content-Type":  {"application/x-www-form-urlencoded"},
 	}
 
 	log.Println("Sending authorization token request: POST ", a.URL)

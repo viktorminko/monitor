@@ -1,15 +1,15 @@
 package authorization
 
 import (
+	chttp "github.com/viktorminko/monitor/http"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 	"time"
-	chttp "github.com/viktorminko/monitor/http"
-	"os"
-	"log"
-	"io/ioutil"
 )
 
 func TestHttpAuthorizer_GetToken(t *testing.T) {

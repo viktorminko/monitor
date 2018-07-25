@@ -1,10 +1,10 @@
 package notifiers
 
 import (
-	"text/template"
 	"bytes"
 	"github.com/viktorminko/monitor/helper"
 	"path"
+	"text/template"
 )
 
 type Message struct {
@@ -62,14 +62,14 @@ func BuildMessage(workDir string, messageID string, bodyData map[string]interfac
 
 	dir := path.Join(workDir, "messages")
 	message, err := InitMessage(
-		path.Join(dir ,messageID+".json"))
+		path.Join(dir, messageID+".json"))
 
 	if err != nil {
 		return nil, err
 	}
 
 	if len(message.BodyTemplate) > 0 {
-		tmpl, err := template.ParseFiles(path.Join(dir,message.BodyTemplate))
+		tmpl, err := template.ParseFiles(path.Join(dir, message.BodyTemplate))
 
 		if err != nil {
 			return nil, err

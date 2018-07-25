@@ -13,6 +13,6 @@ type AuthorizationConfiguration struct {
 }
 
 // InitFromFile inits object from JSON file
-func (a *AuthorizationConfiguration) InitFromFile (filePath string) (error) {
+func (a *AuthorizationConfiguration) InitFromFile(filePath string) error {
 	return helper.InitObjectFromJsonFile(filePath, a)
 }

@@ -1,8 +1,8 @@
 package error
 
 import (
-	"log"
 	"github.com/viktorminko/monitor/notifiers"
+	"log"
 )
 
 // Handler starts error handler goroutine

@@ -8,7 +8,7 @@ type Sender interface {
 
 type Senders []Sender
 
-func (m *Senders) SendToAll(mID string, mBody map[string]interface{}) () {
+func (m *Senders) SendToAll(mID string, mBody map[string]interface{}) {
 	for i := range *m {
 		s := (*m)[i]
 		go func() {
@@ -20,6 +20,6 @@ func (m *Senders) SendToAll(mID string, mBody map[string]interface{}) () {
 	}
 }
 
-func (m *Senders) Add(s Sender) () {
+func (m *Senders) Add(s Sender) {
 	*m = append(*m, s)
 }

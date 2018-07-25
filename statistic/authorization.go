@@ -1,9 +1,9 @@
 package statistic
 
 import (
-	"net"
 	"github.com/viktorminko/monitor/authorization"
-	)
+	"net"
+)
 
 type Authorization struct {
 	Statistic

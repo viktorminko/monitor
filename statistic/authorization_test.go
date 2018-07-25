@@ -1,8 +1,8 @@
 package statistic
 
 import (
-	"testing"
 	"github.com/viktorminko/monitor/authorization"
+	"testing"
 	"time"
 )
 
@@ -15,7 +15,7 @@ func checkAuth(t *testing.T, auth Authorization, err error, ex int, er int, re t
 	if auth.AmountOfExecutions != ex {
 		t.Errorf(
 			"invalid number of executions, expected: %v, got: %v",
-			1,
+			ex,
 			auth.AmountOfExecutions,
 		)
 	}
@@ -23,7 +23,7 @@ func checkAuth(t *testing.T, auth Authorization, err error, ex int, er int, re t
 	if auth.AmountOfErrors != er {
 		t.Errorf(
 			"invalid number of errors, expected: %v, got: %v",
-			0,
+			er,
 			auth.AmountOfErrors,
 		)
 	}
@@ -31,7 +31,7 @@ func checkAuth(t *testing.T, auth Authorization, err error, ex int, er int, re t
 	if auth.AverageResponseTime != re {
 		t.Errorf(
 			"invalid AverageResponseTime, expected: %v, got: %v",
-			2,
+			re,
 			auth.AverageResponseTime,
 		)
 	}
@@ -60,10 +60,10 @@ func TestAuthorization_Update(t *testing.T) {
 }
 
 func TestAuthorization_Reset(t *testing.T) {
-
 	auth := Authorization{
 		Statistic{
 			1,
+
 			1,
 			1,
 		},
@@ -71,10 +71,7 @@ func TestAuthorization_Reset(t *testing.T) {
 		0,
 	}
 
-	err  := auth.Reset()
-
-
+	err := auth.Reset()
 
 	checkAuth(t, auth, err, 0, 0, time.Duration(0))
-
 }

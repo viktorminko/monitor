@@ -1,26 +1,26 @@
 package request
 
 import (
+	"github.com/viktorminko/monitor/authorization"
+	"github.com/viktorminko/monitor/config"
+	chttp "github.com/viktorminko/monitor/http"
+	"io/ioutil"
+	"log"
 	"math/rand"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strconv"
 	"sync"
 	"testing"
 	"time"
-	"github.com/viktorminko/monitor/config"
-	chttp "github.com/viktorminko/monitor/http"
-	"github.com/viktorminko/monitor/authorization"
-	"log"
-	"io/ioutil"
-	"os"
 )
 
 func TestTest_IsNeedToRun(t *testing.T) {
 
 	lastExecuted := time.Now()
 
-	runPeriod := 2
+	runPeriod := config.Duration{2}
 
 	apiTest := Request{
 		LastExecutedAt: lastExecuted,
@@ -30,23 +30,23 @@ func TestTest_IsNeedToRun(t *testing.T) {
 	}
 
 	//Exactly in one period
-	if apiTest.IsNeedToRun(lastExecuted.Add(time.Duration(runPeriod) * time.Second)) {
+	if apiTest.IsNeedToRun(lastExecuted.Add(runPeriod.Duration)) {
 		t.Error("Request should not be executed exactly after one period")
 	}
 
 	//Later then one period
-	if !apiTest.IsNeedToRun(lastExecuted.Add(time.Duration(runPeriod+1) * time.Second)) {
+	if !apiTest.IsNeedToRun(lastExecuted.Add(runPeriod.Duration + 1)) {
 		t.Error("Request should be executed later then 1 period")
 	}
 
 	//Earlier then one period
-	if apiTest.IsNeedToRun(lastExecuted.Add(time.Duration(runPeriod-1) * time.Second)) {
+	if apiTest.IsNeedToRun(lastExecuted.Add(runPeriod.Duration - 1)) {
 		t.Error("Request should not be executed earlier then 1 period")
 	}
 
 	//Should be executed if LastExecutedAt is 0
 	apiTest.LastExecutedAt = time.Time{}
-	if !apiTest.IsNeedToRun(time.Time{}.Add(time.Duration(runPeriod-1) * time.Second)) {
+	if !apiTest.IsNeedToRun(time.Time{}.Add(runPeriod.Duration - 1)) {
 		t.Error("Request should be executed if it was never executed yet")
 	}
 }
