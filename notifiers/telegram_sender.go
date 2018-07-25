@@ -39,12 +39,12 @@ func (s *TelegramSender) SendMessage(mID string, mBody map[string]interface{}) e
 func InitTelegramSender(workDir string) (Sender, error) {
 
 	dir := path.Join(
-		path.Dir(workDir),
-		path.Dir("notifiers/telegram/"),
+		workDir,
+		"notifiers/telegram",
 	)
 
 	config := &TelegramSenderConfig{}
-	err := helper.InitObjectFromJsonFile(path.Join(dir, "config.json"), &config)
+	err := helper.InitObjectFromJsonFile(dir, "config.json", &config)
 	if err != nil {
 		return nil, err
 	}

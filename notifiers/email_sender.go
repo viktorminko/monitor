@@ -6,13 +6,10 @@ import (
 )
 
 func InitEmailSender(workDir string) (Sender, error) {
-	dir := path.Join(
-		path.Dir(workDir),
-		path.Dir("notifiers/email/"),
-	)
+	dir := path.Join(workDir, "notifiers/email")
 
 	gmailAccount := &EmailAccount{}
-	err := helper.InitObjectFromJsonFile(path.Join(dir, "config.json"), gmailAccount)
+	err := helper.InitObjectFromJsonFile(dir, "config.json", gmailAccount)
 	if err != nil {
 		return nil, err
 	}

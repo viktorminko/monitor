@@ -48,9 +48,9 @@ func (m *Message) InsertDataInBody(data map[string]interface{}) error {
 	return nil
 }
 
-func InitMessage(messageFile string) (*Message, error) {
+func InitMessage(dir string, messageFile string) (*Message, error) {
 	message := &Message{}
-	err := helper.InitObjectFromJsonFile(messageFile, message)
+	err := helper.InitObjectFromJsonFile(dir, messageFile, message)
 	if err != nil {
 		return nil, err
 	}
@@ -61,8 +61,7 @@ func InitMessage(messageFile string) (*Message, error) {
 func BuildMessage(workDir string, messageID string, bodyData map[string]interface{}) (*Message, error) {
 
 	dir := path.Join(workDir, "messages")
-	message, err := InitMessage(
-		path.Join(dir, messageID+".json"))
+	message, err := InitMessage(dir, messageID+".json")
 
 	if err != nil {
 		return nil, err

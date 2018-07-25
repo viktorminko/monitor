@@ -13,7 +13,6 @@ import (
 	"log"
 	"net/url"
 	"os"
-	"path"
 )
 
 const configFolder = "config"
@@ -61,7 +60,7 @@ func main() {
 	}
 
 	configuration := &config.Configuration{}
-	if err := configuration.InitFromFile(path.Join(path.Dir(workDir), configFile)); err != nil {
+	if err := helper.InitObjectFromJsonFile(workDir, configFile, configuration); err != nil {
 		cerror.Check(cerror.Fatal{"error loading configuration", err})
 	}
 
@@ -74,25 +73,25 @@ func main() {
 
 	//Init tests
 	rawTests := config.Definitions{}
-	if err := rawTests.InitFromFile(path.Join(path.Dir(workDir), testsFile)); err != nil {
+	if err := helper.InitObjectFromJsonFile(workDir, testsFile, &rawTests); err != nil {
 		cerror.Check(cerror.Fatal{"error loading tests", err})
 	}
 
 	//Init environment
-	env := &config.Context{}
-	if err := env.InitFromFile(path.Join(path.Dir(workDir), environmentFile)); err != nil {
+	context := &config.Context{}
+	if err := helper.InitObjectFromJsonFile(workDir, environmentFile, context); err != nil {
 		cerror.Check(cerror.Fatal{"error loading environment", err})
 	}
 
 	//Update tests based on data from environment file
-	tests, err := request.Prepare(rawTests, env, configuration.Domain)
+	tests, err := request.Prepare(rawTests, context, configuration.Domain)
 	if err != nil {
 		cerror.Check(cerror.NonFatal{"error occurred while preparing raw tests", err})
 	}
 
 	//Init authorization configuration
 	authConf := &config.AuthorizationConfiguration{}
-	if err := authConf.InitFromFile(path.Join(path.Dir(workDir), authorizationConfigurationFile)); err != nil {
+	if err := helper.InitObjectFromJsonFile(workDir, authorizationConfigurationFile, authConf); err != nil {
 		cerror.Check(cerror.NonFatal{"error loading authorization configuration", err})
 	}
 

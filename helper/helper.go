@@ -7,12 +7,13 @@ import (
 	"io"
 	"log"
 	"os"
+	"path"
 	"reflect"
 )
 
 // InitObjectFromJsonFile inits object from JSON file
-func InitObjectFromJsonFile(filename string, obj interface{}) error {
-	file, err := os.Open(filename)
+func InitObjectFromJsonFile(dir string, fileName string, obj interface{}) error {
+	file, err := os.Open(path.Join(dir, fileName))
 	if err != nil {
 		return err
 	}

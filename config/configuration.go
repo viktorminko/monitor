@@ -3,16 +3,11 @@ package config
 import (
 	"encoding/json"
 	"errors"
-	"github.com/viktorminko/monitor/helper"
 	"time"
 )
 
 type Duration struct {
 	time.Duration
-}
-
-func (d Duration) MarshalJSON() ([]byte, error) {
-	return json.Marshal(d.String())
 }
 
 func (d *Duration) UnmarshalJSON(b []byte) error {
@@ -43,9 +38,4 @@ type Configuration struct {
 	StatisticRunPeriod Duration
 	LogFile            string
 	Proxy              string
-}
-
-// InitFromFile inits object from JSON file
-func (c *Configuration) InitFromFile(filePath string) error {
-	return helper.InitObjectFromJsonFile(filePath, c)
 }

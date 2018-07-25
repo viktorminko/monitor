@@ -2,7 +2,6 @@ package config
 
 import (
 	"bytes"
-	"github.com/viktorminko/monitor/helper"
 	"net/http"
 	"text/template"
 )
@@ -22,11 +21,6 @@ type Definition struct {
 
 // Definitions is a slice of monitor tests
 type Definitions []Definition
-
-// InitFromFile inits object from JSON file
-func (ds *Definitions) InitFromFile(filePath string) error {
-	return helper.InitObjectFromJsonFile(filePath, ds)
-}
 
 // Prepare modifies definition based on provided context
 func (d *Definition) Prepare(data *Context) error {
