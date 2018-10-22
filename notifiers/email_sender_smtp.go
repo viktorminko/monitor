@@ -30,7 +30,9 @@ func (e *SmtpEmailSender) SendMessage(mID string, mBody map[string]interface{}) 
 		return err
 	}
 
-	messageString, err := message.GetRFCMessageString()
+	from := e.Account.From
+
+	messageString, err := message.GetRFCMessageString(from)
 	if err != nil {
 		return err
 	}
@@ -40,13 +42,14 @@ func (e *SmtpEmailSender) SendMessage(mID string, mBody map[string]interface{}) 
 		return nil
 	}
 
-	err = smtp.SendMail(e.Account.EmailServer+":"+strconv.Itoa(e.Account.Port),
+	err = smtp.SendMail(
+		e.Account.EmailServer+":"+strconv.Itoa(e.Account.Port),
 		auth,
-		e.Account.Username,
+		from,
 		recepients,
 		[]byte(messageString))
 	if err != nil {
-		log.Println(err)
+		log.Println("Mail error: "+err.Error())
 		return err
 	}
 

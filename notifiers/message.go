@@ -16,7 +16,7 @@ type Message struct {
 	Body         string
 }
 
-func (m *Message) GetRFCMessageString() (string, error) {
+func (m *Message) GetRFCMessageString(from string) (string, error) {
 
 	messageType := "text/plain"
 	if len(m.Type) > 0 {
@@ -24,7 +24,8 @@ func (m *Message) GetRFCMessageString() (string, error) {
 	}
 
 	msg := "MIME-version: 1.0;\nContent-Type: " + messageType + "; charset=\"UTF-8\";\r\n"
-	msg += "Subject: API monitor: " + m.Subject + "\r\n"
+	msg += "From: " + from + "\r\n"
+	msg += "Subject: " + m.Subject + "\r\n"
 	msg += "\n"
 	msg += m.Body + "\n"
 
