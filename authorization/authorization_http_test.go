@@ -17,7 +17,7 @@ func TestHttpAuthorizer_GetToken(t *testing.T) {
 	appID := "my_app_id"
 	appSecret := "my_secret"
 	tokenStr := "my_token"
-	timeout := 2
+	timeout := 2*time.Second
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		//Check authorization data
@@ -38,7 +38,7 @@ func TestHttpAuthorizer_GetToken(t *testing.T) {
 		io.WriteString(w, `{"access_token": "`+tokenStr+`"}`)
 
 		//Wait less then expected timeout and there should not be any error
-		time.Sleep(time.Duration(timeout-1) * time.Second)
+		time.Sleep(timeout-1 * time.Second)
 
 	}))
 	defer server.Close()

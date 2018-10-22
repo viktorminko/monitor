@@ -16,7 +16,7 @@ import (
 // HTTPAuthorizer gets authorization token via HHTP request to URL
 type HTTPAuthorizer struct {
 	URL       string
-	Timeout   int
+	Timeout   time.Duration
 	AppID     string
 	AppSecret string
 	Client    *chttp.Client
@@ -45,7 +45,7 @@ func (a *HTTPAuthorizer) GetToken() (*Token, error) {
 	}
 
 	log.Println("Sending authorization token request: POST ", a.URL)
-	res, err := a.Client.Call(req, time.Duration(a.Timeout)*time.Second)
+	res, err := a.Client.Call(req, a.Timeout)
 	if err != nil {
 		return nil, err
 	}
