@@ -10,7 +10,8 @@ func TestEmailMessage_GetRFCMessageString(t *testing.T) {
 			Body:    "my_body",
 		}
 
-		res, err := msg.GetRFCMessageString()
+		from := "from@domain.com"
+		res, err := msg.GetRFCMessageString(from)
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
@@ -19,9 +20,8 @@ func TestEmailMessage_GetRFCMessageString(t *testing.T) {
 		expected := "MIME-version: 1.0;\nContent-Type: " +
 			msg.Type +
 			"; charset=\"UTF-8\";\r\n" +
-			"Subject: API monitor: " +
-			msg.Subject +
-			"\r\n" +
+			"From: " + from + "\r\n" +
+			"Subject: " + msg.Subject + "\r\n" +
 			"\n" +
 			msg.Body +
 			"\n"
@@ -33,15 +33,16 @@ func TestEmailMessage_GetRFCMessageString(t *testing.T) {
 	t.Run("default message type", func(t *testing.T) {
 		msg := &Message{}
 
-		res, err := msg.GetRFCMessageString()
+		from := "from@domain.com"
+		res, err := msg.GetRFCMessageString(from)
 
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
 
 		expected := "MIME-version: 1.0;\nContent-Type: text/plain; charset=\"UTF-8\";\r\n" +
-			"Subject: API monitor: " +
-			"\r\n" +
+			"From: " + from + "\r\n" +
+			"Subject: " + "\r\n" +
 			"\n" +
 			"\n"
 		if res != expected {

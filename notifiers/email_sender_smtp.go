@@ -49,7 +49,6 @@ func (e *SmtpEmailSender) SendMessage(mID string, mBody map[string]interface{}) 
 		recepients,
 		[]byte(messageString))
 	if err != nil {
-		log.Println("Mail error: "+err.Error())
 		return err
 	}
 

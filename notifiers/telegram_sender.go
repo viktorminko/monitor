@@ -3,7 +3,6 @@ package notifiers
 import (
 	"github.com/Syfaro/telegram-bot-api"
 	"github.com/viktorminko/monitor/helper"
-	"log"
 	"path"
 )
 
@@ -28,8 +27,6 @@ func (s *TelegramSender) SendMessage(mID string, mBody map[string]interface{}) e
 
 	msg := tgbotapi.NewMessage(s.chatID, "*"+message.Subject+"*\n\n"+message.Body)
 	msg.ParseMode = tgbotapi.ModeMarkdown
-
-	log.Printf("sending message to telegram, mess: " + msg.Text)
 
 	s.Bot.Send(msg)
 

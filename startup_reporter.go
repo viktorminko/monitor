@@ -38,7 +38,6 @@ func (s *StartupReporter) Send(
 			"auth_timeout": auth.GetAuthorizationTokenTimeout,
 			"app_id":       auth.AppID,
 			"exec_period":  config.RunPeriod,
-			"stats_period": config.StatisticRunPeriod,
 			"tests":        string(helper.FormatJSON(testsJSON)),
 			"proxy":        config.Proxy,
 		})
