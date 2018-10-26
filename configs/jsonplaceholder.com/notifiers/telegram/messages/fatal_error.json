@@ -1,0 +1,7 @@
+{
+  "ID": "fatal_error",
+  "Type": "text/plain",
+  "Name": "Fatal error email",
+  "Subject": "Fatal error occurred. Monitor is down.",
+  "BodyTemplate": "tpl/error.md"
+}

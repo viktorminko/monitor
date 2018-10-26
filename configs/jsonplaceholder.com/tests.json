@@ -1,0 +1,43 @@
+[
+  {
+    "ID": "get_posts",
+    "RunPeriod": "10s",
+    "URL": "/posts",
+    "Sample": false,
+    "ResponseCode": 200,
+    "HTTPMethod": "GET",
+    "TimeOut": "2s"
+  },
+  {
+    "ID": "get_post",
+    "RunPeriod": "20s",
+    "URL": "/posts/{{.PostID}}",
+    "Sample": {
+      "userId": 1,
+      "id": 2,
+      "title": "qui est esse",
+      "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+    },
+    "ResponseCode": 200,
+    "HTTPMethod": "GET",
+    "TimeOut": "2s"
+  },
+  {
+    "ID": "add_post",
+    "RunPeriod": "10s",
+    "URL": "/posts",
+    "Sample": false,
+    "ResponseCode": 201,
+    "HTTPMethod": "POST",
+    "TimeOut": "2s"
+  },
+  {
+    "ID": "non_existent",
+    "RunPeriod": "10s",
+    "URL": "/pets",
+    "Sample": {},
+    "ResponseCode": 404,
+    "HTTPMethod": "GET",
+    "TimeOut": "2s"
+  }
+]

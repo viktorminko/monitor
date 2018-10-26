@@ -1,0 +1,14 @@
+{
+  "Username": "",
+  "Password": "",
+  "EmailServer": "",
+  "Port": 25,
+  "Recepients": [
+    {
+      "Email": "",
+      "Name": ""
+    }
+  ],
+  "From": "",
+  "IsDebugMode": true
+}

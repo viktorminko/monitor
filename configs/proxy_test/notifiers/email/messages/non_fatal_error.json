@@ -1,0 +1,7 @@
+{
+  "ID": "non_fatal_error",
+  "Type": "text/plain",
+  "Name": "Non fatal error email", 
+  "Subject": "Non fatal error occurred. Monitor keeps working.",
+  "BodyTemplate": "tpl/error.html"
+}

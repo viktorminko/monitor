@@ -1,0 +1,7 @@
+{
+  "ID": "unexpected_error",
+  "Type": "text/plain",
+  "Name": "Unexpected error email",
+  "Subject": "Unexpected error occurred. Monitor is down.",
+  "BodyTemplate": "tpl/error.md"
+}

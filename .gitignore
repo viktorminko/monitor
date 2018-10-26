@@ -1,1 +1,4 @@
 .idea/*
+bin/
+configs_prod
+.env

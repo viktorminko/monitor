@@ -1,0 +1,8 @@
+{
+  "Domain": "http://ip.xss.myip.ru/index_small.php",
+  "RunPeriod": 2,
+  "StatisticRunPeriod": 10,
+  "LogFile": "",
+  "Proxy": "your_proxy_url"
+
+}

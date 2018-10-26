@@ -1,0 +1,26 @@
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+Monitor was started at: {{.startup_date}}
+<br />Testing URL: {{.url}}
+<br />Authorization URL: {{.auth_url}}
+<br />Authorization token request timeout: {{.auth_timeout}}
+<br />Testing application ID: {{.app_id}}
+<br />Test suite executions period: {{.exec_period}}
+<br />Sending statistics period: {{.stats_period}}
+<br />Proxy: {{.proxy}}
+
+
+<p>
+    Test suite configuration:
+</p>
+
+<pre>
+    {{.tests}}
+</pre>
+
+</body>
+</html>

@@ -26,4 +26,4 @@ Test errors and statistic reports can be send by email or telegram, so you can g
 ./monitor -workdir your_config_directory
 ```
  
- For other usage and deployment options see https://github.com/viktorminko/monitor_tools
+ For other usage and deployments options see https://github.com/viktorminko/monitor_tools

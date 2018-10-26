@@ -1,0 +1,6 @@
+{
+  "Domain": "https://jsonplaceholder.typicode.com",
+  "RunPeriod": "200ms",
+  "StatisticRunPeriod": "2s",
+  "LogFile": ""
+}

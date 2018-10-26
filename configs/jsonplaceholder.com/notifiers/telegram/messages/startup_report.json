@@ -1,0 +1,7 @@
+{
+  "ID": "startup_report",
+  "Type": "text/html",
+  "Name": "Monitor startup report",
+  "Subject": "Monitor was started",
+  "BodyTemplate": "tpl/startup_report.md"
+}

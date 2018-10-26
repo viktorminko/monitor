@@ -1,0 +1,7 @@
+{
+  "ID": "test_error",
+  "Type": "text/plain",
+  "Name": "Test error email",
+  "Subject": "Test failed",
+  "BodyTemplate": "tpl/test_error.html"
+}

@@ -1,0 +1,11 @@
+[
+  {
+    "ID": "test_via_proxy",
+    "RunPeriod": 2,
+    "URL": "",
+    "Sample": false,
+    "ResponseCode": 200,
+    "HTTPMethod": "GET",
+    "TimeOut": 5
+  }
+]

@@ -9,7 +9,7 @@ git:
   depth: 1
 
 script:
-  - go test -v -race ./...
+  - go test -v -race ./pkg/...
   - $GOPATH/bin/goveralls -service=travis-ci
 
 before_install:

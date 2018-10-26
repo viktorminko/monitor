@@ -1,0 +1,7 @@
+{
+  "ID": "statistic_report",
+  "Type": "text/html",
+  "Name": "Statistic report",
+  "Subject": "Monitor report",
+  "BodyTemplate": "tpl/statistic_report.html"
+}
