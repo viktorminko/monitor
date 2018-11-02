@@ -7,8 +7,8 @@ import (
 )
 
 type Monitor struct {
-	Suite         *Suite
-	Authorization *Authorization
+	Suite         Suite
+	Authorization Authorization
 }
 
 type Collector struct {
@@ -32,8 +32,9 @@ func (s *Collector) Run() (
 				s.Statistics.Suite.Update(s1)
 			case s2 := <-c2:
 				s.Statistics.Authorization.Update(s2)
+			//Send statistics to reporter
 			case c3 <- s.Statistics:
-				//Send stats to some handler
+
 			}
 		}
 	}()

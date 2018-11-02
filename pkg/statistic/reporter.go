@@ -11,6 +11,7 @@ type Reporter struct {
 	ErrorChannel chan<- error
 }
 
+//sends statistics received from the channel
 func (s *Reporter) Run(
 	ExecutionsPeriod time.Duration,
 	statsReceiver <-chan *Monitor,
@@ -24,7 +25,7 @@ func (s *Reporter) Run(
 		for {
 			<-t.C
 			stats := <-statsReceiver
-			err := s.SendReport(stats, senders)
+			err := s.SendReport(*stats, senders)
 
 			if err != nil {
 				s.ErrorChannel <- cerror.NonFatal{"error occurred while sending statistics report", err}
@@ -40,7 +41,7 @@ func (s *Reporter) Run(
 	return
 }
 
-func (s *Reporter) SendReport(stats *Monitor, senders *notifiers.Senders) error {
+func (s *Reporter) SendReport(stats Monitor, senders *notifiers.Senders) error {
 	log.Println("Sending statistics")
 
 	senders.SendToAll(

@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-// HTTPAuthorizer gets authorization token via HHTP request to URL
+// HTTPAuthorizer gets authorization token via HTTP request to URL
 type HTTPAuthorizer struct {
 	URL       string
 	Timeout   time.Duration
@@ -44,14 +44,14 @@ func (a *HTTPAuthorizer) GetToken() (*Token, error) {
 		"Content-Type":  {"application/x-www-form-urlencoded"},
 	}
 
-	log.Println("Sending authorization token request: POST ", a.URL)
+	log.Println("sending authorization token request: POST ", a.URL)
 	res, err := a.Client.Call(req, a.Timeout)
 	if err != nil {
 		return nil, err
 	}
 
 	if res.StatusCode != http.StatusOK {
-		err := errors.New("Invalid http response status: " + http.StatusText(res.StatusCode))
+		err := errors.New("invalid http response status: " + http.StatusText(res.StatusCode))
 		return nil, err
 	}
 
