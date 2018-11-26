@@ -1,7 +1,7 @@
 [
   {
     "ID": "get_posts",
-    "RunPeriod": "10s",
+    "RunPeriod": "1s",
     "URL": "/posts",
     "Sample": false,
     "ResponseCode": 200,
@@ -10,7 +10,7 @@
   },
   {
     "ID": "get_post",
-    "RunPeriod": "20s",
+    "RunPeriod": "2s",
     "URL": "/posts/{{.PostID}}",
     "Sample": {
       "userId": 1,
@@ -24,7 +24,7 @@
   },
   {
     "ID": "add_post",
-    "RunPeriod": "10s",
+    "RunPeriod": "1s",
     "URL": "/posts",
     "Sample": false,
     "ResponseCode": 201,
@@ -33,7 +33,7 @@
   },
   {
     "ID": "non_existent",
-    "RunPeriod": "10s",
+    "RunPeriod": "1s",
     "URL": "/pets",
     "Sample": {},
     "ResponseCode": 404,
