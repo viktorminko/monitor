@@ -22,8 +22,13 @@ Test errors and statistic reports can be send by email or telegram, so you can g
  
 ## Usage
 
+With compileв binary
+
 ```
 ./monitor -workdir your_config_directory
 ```
  
- For other usage and deployments options see https://github.com/viktorminko/monitor_tools
+ With docker image
+```
+docker run -v $(pwd)/config:/app/config viktorminko/monitor
+``` 
