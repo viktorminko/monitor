@@ -3,6 +3,7 @@ package notifiers
 import (
 	"log"
 	"net/smtp"
+	"reflect"
 	"strconv"
 )
 
@@ -13,7 +14,12 @@ type SmtpEmailSender struct {
 
 func (e *SmtpEmailSender) SendMessage(mID string, mBody map[string]interface{}) error {
 
-	//Init message
+	log.Printf(
+		"sending messssage via sender: %v, message id: %v",
+		reflect.TypeOf(e).String(),
+		mID,
+	)
+
 	message, err := BuildMessage(e.WorkDir, mID, mBody)
 	if err != nil {
 		return err

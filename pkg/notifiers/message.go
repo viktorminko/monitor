@@ -32,23 +32,6 @@ func (m *Message) GetRFCMessageString(from string) (string, error) {
 	return msg, nil
 }
 
-func (m *Message) InsertDataInBody(data map[string]interface{}) error {
-	//Prepare message body
-	tmpl, err := template.New("tpl").Parse(m.BodyTemplate)
-	if err != nil {
-		return err
-	}
-	var t bytes.Buffer
-
-	err = tmpl.Execute(&t, data)
-	if err != nil {
-		return err
-	}
-	m.Body = t.String()
-
-	return nil
-}
-
 func InitMessage(dir string, messageFile string) (*Message, error) {
 	message := &Message{}
 	err := helper.InitObjectFromJsonFile(dir, messageFile, message)
@@ -60,7 +43,6 @@ func InitMessage(dir string, messageFile string) (*Message, error) {
 }
 
 func BuildMessage(workDir string, messageID string, bodyData map[string]interface{}) (*Message, error) {
-
 	dir := path.Join(workDir, "messages")
 	message, err := InitMessage(dir, messageID+".json")
 

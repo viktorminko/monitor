@@ -26,13 +26,14 @@ func (s *Reporter) Run(
 			stats := <-statsReceiver
 			err := s.SendReport(stats, senders)
 
+			//if we didn't send report, then don't reset statistics
 			if err != nil {
 				s.ErrorChannel <- cerror.NonFatal{"error occurred while sending statistics report", err}
 				continue
 			}
-			//Reset statistics when report is sent
-			stats.Suite.Reset()
-			stats.Authorization.Reset()
+
+			log.Println("resetting statistics")
+			stats.Reset()
 
 		}
 	}()
@@ -41,15 +42,13 @@ func (s *Reporter) Run(
 }
 
 func (s *Reporter) SendReport(stats *Monitor, senders *notifiers.Senders) error {
-	log.Println("Sending statistics")
+	log.Println("sending statistics")
 
-	senders.SendToAll(
+	return senders.SendToAll(
 		"statistic_report",
 		map[string]interface{}{
 			"Date":      time.Now().Local().Format("Mon Jan 2 15:04:05 2006"),
 			"Tests":     stats.Suite.Tests,
 			"AuthStats": stats.Authorization,
 		})
-
-	return nil
 }

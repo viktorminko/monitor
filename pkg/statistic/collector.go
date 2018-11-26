@@ -11,6 +11,11 @@ type Monitor struct {
 	Authorization *Authorization
 }
 
+func (m *Monitor) Reset() {
+	m.Suite.Reset()
+	m.Authorization.Reset()
+}
+
 type Collector struct {
 	Statistics *Monitor
 }

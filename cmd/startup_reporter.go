@@ -40,6 +40,7 @@ func (s *StartupReporter) Send(
 			"exec_period":  config.RunPeriod,
 			"tests":        string(helper.FormatJSON(testsJSON)),
 			"proxy":        config.Proxy,
+			"stats_period": config.StatisticRunPeriod,
 		})
 
 	}()
