@@ -109,13 +109,11 @@ func main() {
 		senders,
 	)
 
-	testStatsChan,
-		authStatsChan,
-		statsRequester := (&statistic.Collector{&statistic.Monitor{
-		&statistic.Suite{
+	testStatsChan, authStatsChan, statsRequester := (&statistic.Collector{&statistic.Monitor{
+		statistic.Suite{
 			nil,
 		},
-		&statistic.Authorization{
+		statistic.Authorization{
 			statistic.Statistic{0, 0, 0},
 			nil,
 			0,
@@ -161,7 +159,6 @@ func main() {
 			errorChannel,
 		},
 		configuration.RunPeriod.Duration,
-		testStatsChan,
 		errorChannel,
 	}).Run(
 		authHandler,
